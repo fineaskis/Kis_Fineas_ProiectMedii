@@ -1,0 +1,83 @@
+﻿@page
+@model Kis_Fineas_ProiectMedii.Pages.Devices.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Device</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Device.ID" />
+            <div class="form-group">
+                <label asp-for="Device.Name" class="control-label"></label>
+                <input asp-for="Device.Name" class="form-control" />
+                <span asp-validation-for="Device.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Device.Seller" class="control-label"></label>
+                <input asp-for="Device.Seller" class="form-control" />
+                <span asp-validation-for="Device.Seller" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Device.Price" class="control-label"></label>
+                <input asp-for="Device.Price" class="form-control" />
+                <span asp-validation-for="Device.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Device.ManufacturingDate" class="control-label"></label>
+                <input asp-for="Device.ManufacturingDate" class="form-control" />
+                <span asp-validation-for="Device.ManufacturingDate" class="textdanger"></span>
+            </div>
+            
+                <label asp-for="Device.ManufacturerID" class="control-label">Manufacturer Name</label>
+                <select asp-for="Device.ManufacturerID" class="form-control" asp-items="ViewBag.ManufacturerID">
+                </select>
+            <span asp-validation-for="Device.ManufacturerID" class="text-danger"></span>
+
+            <div class="form-group">
+            <div class="table">
+                <table>
+                    <tr>
+                    @{
+                        int cnt = 0;
+                        foreach (var cat in Model.AssignedCategoryDataList)
+                        {
+                            if (cnt++ % 3 == 0)
+                            {
+                            @:</tr><tr>
+                            }
+                            @:<td>
+                                <input type="checkbox"
+                                    name="selectedCategories"
+                                    value="@cat.AssignedCategoryDataID"
+                                    @(Html.Raw(cat.Assigned ?
+                                        "checked=\"checked\"" : "")) />
+                                @cat.AssignedCategoryDataID @: @cat.Name
+                                @:</td>
+                            }
+                        @:</tr>
+                        }
+                </table>
+            </div>
+        </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
